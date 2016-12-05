@@ -173,7 +173,7 @@ function configure {
 		read PRE_DOWNLOAD_IPPICV
 
 		if [ "$PRE_DOWNLOAD_IPPICV" == "y" ] || [ "$PRE_DOWNLOAD_IPPICV" == "" ]; then
-			PRE_DOWNLOAD_IPPICV == "y"
+			PRE_DOWNLOAD_IPPICV="y"
 			echo "Please Choose a Source for Downloading ippicv_linux_20151201.tgz?(1-2) [1]"
 			echo "[1]$IPPICV_URL_1"
 			echo "[2]$IPPICV_URL_2"
@@ -181,10 +181,10 @@ function configure {
 
 			if [ "$IPPICV_URL_INDEX" == 1 ]; then
 				IPPICV_URL=$IPPICV_URL_1
-				echo "Will Use URL ($IPPICV_FILE)"
+				echo "Will Use URL ($IPPICV_URL)"
 			elif [ "$IPPICV_URL_INDEX" == 2 ]; then
 				IPPICV_URL=$IPPICV_URL_2
-				echo "Will Use URL ($IPPICV_FILE)"
+				echo "Will Use URL ($IPPICV_URL)"
 			else
 				echo "Use Default $IPPICV_URL URL"
 		fi
@@ -309,10 +309,10 @@ function install_opencv {
 
 	if [ "$PRE_DOWNLOAD_IPPICV" == "y" ]; then
 		if [ ! -e ~/$IPPICV_FILE ]; then
-			wget $IPPICV_URL -O ~/$IPPICV_URL
+			wget $IPPICV_URL -O ~/$IPPICV_FILE
 		fi
 		mkdir -p ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
-		cp  ~/$IPPICV_URL ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
+		cp  ~/$IPPICV_FILE ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
 	fi
 
 	if [ -e ~/$GET_PIP_FILE ]; then

@@ -187,25 +187,18 @@ function configure {
 				echo "Will Use URL ($IPPICV_URL)"
 			else
 				echo "Use Default $IPPICV_URL URL"
+			fi
 		fi
-	fi
-
-
-	
-		
-	fi
-
-	
-	
+	fi	
 
 
 }
 
 function post_clean {
 	if [ -e ~/$OPENCV_FILE ]; then
-		echo "Would You Like to Remove ($OPENCV_FILE)? (y/n) [y]"
+		echo "Would You Like to Remove ($OPENCV_FILE)? (y/n) [n]"
 		read REMOVE_CHACHED_OPENCV_FILE
-		if [ "$REMOVE_CHACHED_OPENCV_FILE" == "y" ] || [ "$REMOVE_CHACHED_OPENCV_FILE" == "" ]; then
+		if [ "$REMOVE_CHACHED_OPENCV_FILE" == "y" ]; then
 			# Will Remove Cached File
 			sudo rm -f ~/$OPENCV_FILE
 			echo "Removed Cached File ($OPENCV_FILE)"
@@ -227,9 +220,9 @@ function post_clean {
 	fi
 
 	if [ -e ~/$OPENCV_CONTRIB_FILE ]; then
-		echo "Would You Like to Remove Chached File ($OPENCV_CONTRIB_FILE)? (y/n) [y]"
+		echo "Would You Like to Remove Chached File ($OPENCV_CONTRIB_FILE)? (y/n) [n]"
 		read REMOVE_CHACHED_OPENCV_CONTRIB_FILE
-		if [ "$REMOVE_CHACHED_OPENCV_CONTRIB_FILE" == "y" ] || [ "$REMOVE_CHACHED_OPENCV_CONTRIB_FILE" == "" ] ; then
+		if [ "$REMOVE_CHACHED_OPENCV_CONTRIB_FILE" == "y" ]; then
 			# Remove Cached File
 			sudo rm -f ~/$OPENCV_CONTRIB_FILE
 			echo "Removed Cached File ($OPENCV_CONTRIB_FILE)"
@@ -249,11 +242,23 @@ function post_clean {
 			echo "Kept Unzipped OpenCV Contribution Directory (opencv_contrib-$OPENCV_VERSION)"
 		fi
 	fi
+	
+	if [ -e ~/$IPPICV_FILE ]; then
+		echo "Would You Like to Remove Chached File ($OPENCV_CONTRIB_FILE)? (y/n) [n]"
+		read REMOVE_CHACHED_IPPICV_FILE
+			if [ "$REMOVE_CHACHED_IPPICV_FILE" == "y" ]; then
+				# Remove Cached File
+				sudo rm -f ~/$IPPICV_FILE
+				echo "Removed Cached File ($IPPICV_FILE)"
+			else
+				echo "Kept Cached File ($IPPICV_FILE)"
+		fi
+	fi
 
 	if [ -d ~/$INSTALLER_SCRIPT_DIR ]; then
-		echo "Would You Like to Remove Installer Directory ($INSTALLER_SCRIPT_DIR)? (y/n) [y]"
+		echo "Would You Like to Remove Installer Directory ($INSTALLER_SCRIPT_DIR)? (y/n) [n]"
 		read REMOVE_INSTALLER
-		if [ "$REMOVE_INSTALLER" == "y" ] || [ "$REMOVE_INSTALLER" == "" ]; then
+		if [ "$REMOVE_INSTALLER" == "y" ]; then
 			# Remove nstaller Directory
 			sudo rm -rf ~/$INSTALLER_SCRIPT_DIR
 			echo "Removed Installer Directory  ($INSTALLER_SCRIPT_DIR)"
@@ -311,8 +316,8 @@ function install_opencv {
 		if [ ! -e ~/$IPPICV_FILE ]; then
 			wget $IPPICV_URL -O ~/$IPPICV_FILE
 		fi
-		mkdir -p ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
-		cp  ~/$IPPICV_FILE ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
+		mkdir -p ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e/
+		cp  ~/$IPPICV_FILE ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e/
 	fi
 
 	if [ -e ~/$GET_PIP_FILE ]; then

@@ -28,5 +28,6 @@ Then follow the instructions to finish the installation.
 If the commands work good, then the installation succeeds, enjoy with opencv!
 
 ## Other
-you can download opencv.zip and opencv_contrib.zip on http://osgee.com/opencv/opencv.zip 
-and http://osgee.com/opencv/opencv_contrib.zip
+you can download [opencv.zip](http://osgee.com/opencv/opencv.zip),[opencv_contrib.zip](http://osgee.com/opencv/opencv_contrib.zip) 
+and [ippicv_linux_20151201.tgz](http://osgee.com/opencv/ippicv_linux_20151201.tgz) in advance. Then put them in user's home directory.
+The script will detect the downloaded files and use them to speed up the installation.

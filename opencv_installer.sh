@@ -17,6 +17,12 @@ GET_PIP_URL_1=http://osgee.com/opencv/$GET_PIP_FILE
 GET_PIP_URL_2=https://bootstrap.pypa.io/$GET_PIP_FILE
 GET_PIP_URL_INDEX=1
 GET_PIP_URL=$GET_PIP_URL_1
+IPPICV_FILE="ippicv_linux_20151201.tgz"
+IPPICV_URL_1="https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/$IPPICV_FILE"
+IPPICV_URL_2="http://osgee.com/opencv/$IPPICV_FILE"
+IPPICV_URL_INDEX=1
+IPPICV_URL=$IPPICV_URL_1
+PRE_DOWNLOAD_IPPICV="y"
 
 function configure {
 	if [ -e ~/$OPENCV_FILE ]; then
@@ -146,11 +152,51 @@ function configure {
 
 	if [ "$GET_PIP_URL_INDEX" == 1 ]; then
 		GET_PIP_URL=$GET_PIP_URL_1
-	elif [ "$GET_PIP_URL_INDEX" == 1 ]; then
+	elif [ "$GET_PIP_URL_INDEX" == 2 ]; then
 		GET_PIP_URL=$GET_PIP_URL_2
 	else
 		echo "Use Default $GET_PIP_FILE URL"
 	fi
+
+	if [ -e ~/$IPPICV_FILE ]; then
+		echo "$IPPICV_FILE Exits, Would You Like to Use Chached File ($IPPICV_FILE)? (y/n) [y]"
+		read USE_CHACHED_IPPICV_FILE
+		if [ "$USE_CHACHED_IPPICV_FILE" == "y" ] || [ "$USE_CHACHED_IPPICV_FILE" == "" ]; then
+			# Will Use Cached File
+			echo "Will Use Cached File ($IPPICV_FILE)"
+		else
+			sudo rm -f ~/$IPPICV_FILE
+			echo "Removed Cached File ($IPPICV_FILE)"
+		fi
+	else
+		echo "Would You Like to Download ippicv_linux_20151201.tgz in Advance (Suggested)? (y/n) [y]"
+		read PRE_DOWNLOAD_IPPICV
+
+		if [ "$PRE_DOWNLOAD_IPPICV" == "y" ] || [ "$PRE_DOWNLOAD_IPPICV" == "" ]; then
+			PRE_DOWNLOAD_IPPICV == "y"
+			echo "Please Choose a Source for Downloading ippicv_linux_20151201.tgz?(1-2) [1]"
+			echo "[1]$IPPICV_URL_1"
+			echo "[2]$IPPICV_URL_2"
+			read IPPICV_URL_INDEX
+
+			if [ "$IPPICV_URL_INDEX" == 1 ]; then
+				IPPICV_URL=$IPPICV_URL_1
+				echo "Will Use URL ($IPPICV_FILE)"
+			elif [ "$IPPICV_URL_INDEX" == 2 ]; then
+				IPPICV_URL=$IPPICV_URL_2
+				echo "Will Use URL ($IPPICV_FILE)"
+			else
+				echo "Use Default $IPPICV_URL URL"
+		fi
+	fi
+
+
+	
+		
+	fi
+
+	
+	
 
 
 }
@@ -261,6 +307,14 @@ function install_opencv {
 
 	unzip $OPENCV_CONTRIB_FILE
 
+	if [ "$PRE_DOWNLOAD_IPPICV" == "y" ]; then
+		if [ ! -e ~/$IPPICV_FILE ]; then
+			wget $IPPICV_URL -O ~/$IPPICV_URL
+		fi
+		mkdir -p ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
+		cp  ~/$IPPICV_URL ~/opencv-$OPENCV_VERSION/3rdparty/ippicv/downloads/linux/
+	fi
+
 	if [ -e ~/$GET_PIP_FILE ]; then
 		sudo rm -rf ~/$GET_PIP_FILE
 	fi
@@ -293,6 +347,7 @@ function install_opencv {
 	else
 		mkvirtualenv $VE_DIR -p python$PY_VERSION_3
 	fi
+	
 
 	workon $VE_DIR
 

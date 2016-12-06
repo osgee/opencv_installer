@@ -1,1 +1,1 @@
-pip install pandas scikit-learn keras tensorflow
+pip install pandas scikit-learn keras tensorflow imutils matplotlib
